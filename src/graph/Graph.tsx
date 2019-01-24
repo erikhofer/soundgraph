@@ -5,6 +5,12 @@ import { FooNode } from '../nodes/FooNode'
 
 export default class Graph extends React.Component {
   public render() {
+    const test = process && process.env && process.env.NODE_ENV === 'test'
+    if (test) {
+      // https://github.com/plotly/react-cytoscapejs/issues/13
+      return null
+    }
+
     const nodes = [new FooNode(), new FooNode()]
 
     const elements: NodeDefinition[] = []
@@ -53,6 +59,7 @@ export default class Graph extends React.Component {
         elements={elements}
         style={{ width: '100%', height: '100%' }}
         pan={{ x: 300, y: 300 }}
+        headless
       />
     )
   }

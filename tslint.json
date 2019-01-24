@@ -9,7 +9,9 @@
   },
   "rules": {
     "jsx-boolean-value": [true, "never"],
-    "interface-name": [true, "never-prefix"]
+    "interface-name": [true, "never-prefix"],
+    "object-literal-sort-keys": false,
+    "triple-equals": true
   },
   "defaultSeverity": "warn"
 }

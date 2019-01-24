@@ -1,6 +1,7 @@
 import { Layout } from 'antd'
 import * as React from 'react'
 import './App.scss'
+import Graph from './graph/Graph'
 
 class App extends React.Component {
   public render() {
@@ -10,7 +11,9 @@ class App extends React.Component {
         <Layout>
           <Sider>Sider</Sider>
           <Layout>
-            <Content>Content</Content>
+            <Content>
+              <Graph />
+            </Content>
             <Footer>Footer</Footer>
           </Layout>
         </Layout>

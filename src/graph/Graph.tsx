@@ -1,7 +1,7 @@
 import { NodeDefinition } from 'cytoscape'
 import React from 'react'
 import CytoscapeComponent from 'react-cytoscapejs'
-import { FooNode } from 'src/nodes/FooNode'
+import { FooNode } from '../nodes/FooNode'
 
 export default class Graph extends React.Component {
   public render() {

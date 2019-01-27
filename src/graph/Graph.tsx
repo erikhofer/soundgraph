@@ -1,7 +1,7 @@
 import { NodeDefinition } from 'cytoscape'
 import React from 'react'
 import CytoscapeComponent from 'react-cytoscapejs'
-import { FooNode } from '../nodes/FooNode'
+import { AudioNodeControl } from 'src/nodes/AudioNodeControl'
 
 export default class Graph extends React.Component {
   public render() {
@@ -11,7 +11,7 @@ export default class Graph extends React.Component {
       return null
     }
 
-    const nodes = [new FooNode(), new FooNode()]
+    const nodes: Array<AudioNodeControl<any>> = []
 
     const elements: NodeDefinition[] = []
 

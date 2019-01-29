@@ -1,7 +1,6 @@
-import { NodeControl } from '../graph/NodeControl'
+import { Node } from '../graph/Node'
 
-export abstract class AudioNodeControl<T> extends NodeControl<T>
-  implements AudioNode {
+export abstract class AudioNodeControl<T> extends Node<T> implements AudioNode {
   public abstract channelCount: number
   public abstract channelCountMode: ChannelCountMode
   public abstract channelInterpretation: ChannelInterpretation

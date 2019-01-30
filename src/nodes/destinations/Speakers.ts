@@ -1,10 +1,11 @@
-import { AudioNodeControlAdapter } from '../AudioNodeControlAdapter'
+import { ReactAudioNodeAdapter } from '../ReactAudioNodeAdapter'
 
-export class Speakers extends AudioNodeControlAdapter<
+export class Speakers extends ReactAudioNodeAdapter<
+  'Speakers',
   void,
   AudioDestinationNode
 > {
   constructor(id: string, context: AudioContext) {
-    super(id, context.destination)
+    super('Speakers', id, context.destination)
   }
 }

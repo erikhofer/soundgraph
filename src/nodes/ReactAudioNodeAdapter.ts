@@ -1,11 +1,16 @@
-import { AudioNodeControl } from './AudioNodeControl'
+import { ReactAudioNode } from './ReactAudioNode'
 
-export class AudioNodeControlAdapter<
+export class ReactAudioNodeAdapter<
+  TYPE extends string,
   OPTIONS,
   NODE extends AudioNode
-> extends AudioNodeControl<OPTIONS> {
-  public constructor(id: string, protected readonly audioNode: NODE) {
-    super(id)
+> extends ReactAudioNode<TYPE, OPTIONS> {
+  public constructor(
+    type: TYPE,
+    id: string,
+    protected readonly audioNode: NODE
+  ) {
+    super(type, id)
   }
 
   public get numberOfInputs() {

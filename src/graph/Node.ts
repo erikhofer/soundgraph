@@ -1,5 +1,11 @@
 import { NodeDefinition } from 'cytoscape'
 
+export type CytoscapeNodeDefinition = NodeDefinition & {
+  scratch?: {
+    _options?: any
+  }
+}
+
 export type NodeType<NODE extends Node<any, any>> = NODE extends Node<
   infer TYPE,
   any
@@ -10,7 +16,7 @@ export type NodeType<NODE extends Node<any, any>> = NODE extends Node<
 export abstract class Node<TYPE extends string, OPTIONS> {
   public name: string
 
-  public constructor(public readonly id: string) {
+  public constructor(public readonly type: TYPE, public readonly id: string) {
     this.name = this.constructor.name
   }
 
@@ -18,7 +24,7 @@ export abstract class Node<TYPE extends string, OPTIONS> {
   public abstract get numberOfOutputs(): number
 
   public get cytoscapeDefinitions() {
-    const defs: NodeDefinition[] = []
+    const defs: CytoscapeNodeDefinition[] = []
 
     defs.push({
       data: {

@@ -1,18 +1,22 @@
 import { Button, Layout } from 'antd'
 import * as React from 'react'
-import { v4 } from 'uuid'
 import './App.scss'
-import GraphRenderer from './graph/react/GraphRenderer'
-import { AudioNodeControl } from './nodes/AudioNodeControl'
-import { Gain } from './nodes/effects/Gain'
+import { Graph } from './graph/Graph'
+import { CytoscapeNodeDefinition } from './graph/Node'
+import ReactGraph from './graph/react/ReactGraph'
+import { SoundgraphNode } from './nodes/SoundgraphNode'
+import { SoundgraphNodeFactory } from './nodes/SoundgraphNodeFactory'
 
 interface AppState {
-  nodes: Array<AudioNodeControl<any>>
+  nodes: CytoscapeNodeDefinition[]
 }
 
 class App extends React.Component<{}, AppState> {
   public state: AppState = { nodes: [] }
   private audioContext = new AudioContext()
+  private graph = new Graph<SoundgraphNode>(
+    new SoundgraphNodeFactory(this.audioContext)
+  )
   public render() {
     const { Footer, Sider, Content } = Layout
     return (
@@ -23,7 +27,7 @@ class App extends React.Component<{}, AppState> {
           </Sider>
           <Layout>
             <Content>
-              <GraphRenderer nodes={this.state.nodes} />
+              <ReactGraph nodes={this.state.nodes} />
             </Content>
             <Footer>Footer</Footer>
           </Layout>
@@ -33,8 +37,9 @@ class App extends React.Component<{}, AppState> {
   }
 
   private createNode = () => {
+    const node = this.graph.addNode('Gain')
     this.setState({
-      nodes: [...this.state.nodes, new Gain(v4(), this.audioContext)]
+      nodes: [...this.state.nodes, ...node.cytoscapeDefinitions]
     })
   }
 }

@@ -1,7 +1,11 @@
-import { AudioNodeControlAdapter } from '../AudioNodeControlAdapter'
+import { ReactAudioNodeAdapter } from '../ReactAudioNodeAdapter'
 
-export class Oscillator extends AudioNodeControlAdapter<void, OscillatorNode> {
+export class Oscillator extends ReactAudioNodeAdapter<
+  'Oscillator',
+  void,
+  OscillatorNode
+> {
   constructor(id: string, context: AudioContext) {
-    super(id, context.createOscillator())
+    super('Oscillator', id, context.createOscillator())
   }
 }

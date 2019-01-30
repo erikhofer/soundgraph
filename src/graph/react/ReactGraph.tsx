@@ -1,13 +1,13 @@
-import { NodeDefinition } from 'cytoscape'
+import { CytoscapeOptions } from 'cytoscape'
 import React from 'react'
 import CytoscapeComponent from 'react-cytoscapejs'
-import { Node } from '../Node'
+import { CytoscapeNodeDefinition } from '../Node'
 
 export interface GraphProps {
-  nodes: Array<Node<any>>
+  nodes: CytoscapeNodeDefinition[]
 }
 
-export default class GraphRenderer extends React.Component<GraphProps> {
+export default class ReactGraph extends React.Component<GraphProps> {
   public render() {
     const test = process && process.env && process.env.NODE_ENV === 'test'
     if (test) {
@@ -15,16 +15,15 @@ export default class GraphRenderer extends React.Component<GraphProps> {
       return null
     }
 
-    const elements: NodeDefinition[] = this.props.nodes
-      .map(n => n.cytoscapeDefinitions)
-      .reduce((d1, d2) => d1.concat(d2), [])
+    const cytoscapeOptions: CytoscapeOptions = {
+      elements: this.props.nodes,
+      pan: { x: 300, y: 300 }
+    }
 
     return (
       <CytoscapeComponent
-        elements={elements}
+        {...cytoscapeOptions}
         style={{ width: '100%', height: '100%' }}
-        pan={{ x: 300, y: 300 }}
-        headless
       />
     )
   }

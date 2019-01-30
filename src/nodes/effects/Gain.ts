@@ -1,7 +1,7 @@
-import { AudioNodeControlAdapter } from '../AudioNodeControlAdapter'
+import { ReactAudioNodeAdapter } from '../ReactAudioNodeAdapter'
 
-export class Gain extends AudioNodeControlAdapter<void, GainNode> {
+export class Gain extends ReactAudioNodeAdapter<'Gain', void, GainNode> {
   constructor(id: string, context: AudioContext) {
-    super(id, context.createGain())
+    super('Gain', id, context.createGain())
   }
 }

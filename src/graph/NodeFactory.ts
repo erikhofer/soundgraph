@@ -1,5 +1,5 @@
 import { Node, NodeType } from './Node'
 
-export interface NodeFactory<T extends Node<any, any>> {
-  createNode(type: NodeType<T>): T
+export interface NodeFactory<NODE extends Node<any, any>> {
+  createNode(type: NodeType<NODE>): NODE
 }

@@ -1,6 +1,8 @@
-import { Node } from '../graph/Node'
+import { ReactNode } from '../graph/react/ReactNode'
 
-export abstract class AudioNodeControl<T> extends Node<T> implements AudioNode {
+export abstract class ReactAudioNode<TYPE extends string, OPTIONS>
+  extends ReactNode<TYPE, OPTIONS>
+  implements AudioNode {
   public abstract channelCount: number
   public abstract channelCountMode: ChannelCountMode
   public abstract channelInterpretation: ChannelInterpretation

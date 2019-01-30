@@ -2,14 +2,20 @@ import { Button, Layout } from 'antd'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import './App.scss'
-import { AppState } from './store'
+import { AppState, DispatchProps, mapDispatchToProps } from './store'
+import { playingActions } from './store/actions'
 // import { playingActions } from './store/actions'
 
-interface AppProps {
+interface AppProps extends DispatchProps {
   playing: boolean
 }
 
+const mapStateToProps = (state: AppState) => ({ playing: state.playing })
+
 class App extends React.Component<AppProps> {
+  public handlePlaying = () => {
+    this.props.dispatch(playingActions.playingContent.request())
+  }
   public render() {
     const { Footer, Sider, Content } = Layout
     return (
@@ -20,7 +26,11 @@ class App extends React.Component<AppProps> {
             <Content>Content</Content>
             <Footer>
               Footer
-              <Button type="primary">Start Playing</Button>
+              <Button type="primary" onClick={this.handlePlaying}>
+                {this.props.playing === false
+                  ? 'Start Playing'
+                  : 'Stop Playing'}
+              </Button>
             </Footer>
           </Layout>
         </Layout>
@@ -29,6 +39,7 @@ class App extends React.Component<AppProps> {
   }
 }
 
-export default connect(({ playing }: AppState) => ({
-  playing
-}))(App)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)

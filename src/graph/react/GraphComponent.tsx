@@ -7,7 +7,7 @@ export interface GraphProps {
   nodes: CytoscapeNodeDefinition[]
 }
 
-export default class ReactGraph extends React.Component<GraphProps> {
+export default class GraphComponent extends React.Component<GraphProps> {
   public render() {
     const test = process && process.env && process.env.NODE_ENV === 'test'
     if (test) {

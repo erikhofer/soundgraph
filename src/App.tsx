@@ -2,17 +2,10 @@ import { Button, Layout } from 'antd'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import './App.scss'
-import { Graph } from './graph/Graph'
-import { CytoscapeNodeDefinition } from './graph/Node'
-import ReactGraph from './graph/react/ReactGraph'
-import { SoundgraphNode } from './nodes/SoundgraphNode'
-import { SoundgraphNodeFactory } from './nodes/SoundgraphNodeFactory'
+import GraphContainer from './components/GraphContainer'
+import NodeLibrary from './components/NodeLibrary'
 import { AppState, DispatchProps, mapDispatchToProps } from './store'
 import { playingActions } from './store/actions'
-
-interface AppState2 {
-  nodes: CytoscapeNodeDefinition[]
-}
 
 interface AppProps extends DispatchProps {
   playing: boolean
@@ -21,11 +14,6 @@ interface AppProps extends DispatchProps {
 const mapStateToProps = (state: AppState) => ({ playing: state.playing })
 
 class App extends React.Component<AppProps> {
-  public state: AppState2 = { nodes: [] }
-  private audioContext = new AudioContext()
-  private graph = new Graph<SoundgraphNode>(
-    new SoundgraphNodeFactory(this.audioContext)
-  )
   public handlePlaying = () => {
     this.props.dispatch(playingActions.playingContent.request())
   }
@@ -35,11 +23,11 @@ class App extends React.Component<AppProps> {
       <div className="App">
         <Layout>
           <Sider>
-            <Button onClick={this.createNode}>Add Node</Button>
+            <NodeLibrary />
           </Sider>
           <Layout>
             <Content>
-              <ReactGraph nodes={this.state.nodes} />
+              <GraphContainer />
             </Content>
             <Footer>
               Footer
@@ -53,13 +41,6 @@ class App extends React.Component<AppProps> {
         </Layout>
       </div>
     )
-  }
-
-  private createNode = () => {
-    const node = this.graph.addNode('Gain')
-    this.setState({
-      nodes: [...this.state.nodes, ...node.cytoscapeDefinitions]
-    })
   }
 }
 

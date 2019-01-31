@@ -13,11 +13,21 @@ export type NodeType<NODE extends Node<any, any>> = NODE extends Node<
   ? TYPE
   : never
 
+export interface Point {
+  x: number
+  y: number
+}
+
 export abstract class Node<TYPE extends string, OPTIONS> {
   public name: string
+  public position: Point
 
   public constructor(public readonly type: TYPE, public readonly id: string) {
     this.name = this.constructor.name
+    this.position = {
+      x: 0,
+      y: 0
+    }
   }
 
   public abstract get numberOfInputs(): number
@@ -30,7 +40,8 @@ export abstract class Node<TYPE extends string, OPTIONS> {
       data: {
         id: this.id,
         label: this.name
-      }
+      },
+      position: this.position
     })
 
     for (let i = 0; i < this.numberOfInputs; i++) {

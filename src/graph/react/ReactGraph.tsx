@@ -1,4 +1,4 @@
-import { CytoscapeOptions } from 'cytoscape'
+import Cytoscape, { CytoscapeOptions } from 'cytoscape'
 import React from 'react'
 import CytoscapeComponent from 'react-cytoscapejs'
 import { CytoscapeNodeDefinition } from '../Node'
@@ -23,8 +23,13 @@ export default class ReactGraph extends React.Component<GraphProps> {
     return (
       <CytoscapeComponent
         {...cytoscapeOptions}
+        cy={this.connectCytoscape}
         style={{ width: '100%', height: '100%' }}
       />
     )
+  }
+
+  private connectCytoscape = (cy: Cytoscape.Core) => {
+    //
   }
 }

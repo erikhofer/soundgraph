@@ -6,7 +6,13 @@
     "antd": "^3.12.4",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "react-scripts-ts-antd": "2.17.0"
+    "react-redux": "^6.0.0",
+    "react-scripts-ts-antd": "2.17.0",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.7",
+    "redux-observable": "^1.0.0",
+    "rxjs": "^6.4.0",
+    "typesafe-actions": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts-ts-antd start",
@@ -26,9 +32,11 @@
     "@types/node": "^10.12.18",
     "@types/react": "^16.7.20",
     "@types/react-dom": "^16.0.11",
+    "@types/react-redux": "^7.0.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.16.1",
     "prettier-check": "^2.0.0",
+    "ts-essentials": "^1.0.3",
     "typescript": "^3.2.4"
   }
 }

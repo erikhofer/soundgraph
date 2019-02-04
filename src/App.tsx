@@ -2,9 +2,10 @@ import { Button, Layout } from 'antd'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import './App.scss'
+import GraphContainer from './components/GraphContainer'
+import NodeLibrary from './components/NodeLibrary'
 import { AppState, DispatchProps, mapDispatchToProps } from './store'
 import { playingActions } from './store/actions'
-// import { playingActions } from './store/actions'
 
 interface AppProps extends DispatchProps {
   playing: boolean
@@ -21,9 +22,13 @@ class App extends React.Component<AppProps> {
     return (
       <div className="App">
         <Layout>
-          <Sider>Sider</Sider>
+          <Sider>
+            <NodeLibrary />
+          </Sider>
           <Layout>
-            <Content>Content</Content>
+            <Content>
+              <GraphContainer />
+            </Content>
             <Footer>
               Footer
               <Button type="primary" onClick={this.handlePlaying}>

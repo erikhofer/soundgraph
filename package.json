@@ -4,17 +4,18 @@
   "private": true,
   "dependencies": {
     "antd": "^3.12.4",
+    "cytoscape-popper": "^1.0.2",
     "react": "^16.7.0",
     "react-cytoscapejs": "^1.1.0",
     "react-dom": "^16.7.0",
-    "react-scripts-ts-antd": "2.17.0",
-    "uuid": "^3.3.2",
     "react-redux": "^6.0.0",
+    "react-scripts-ts-antd": "2.17.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.7",
     "redux-observable": "^1.0.0",
     "rxjs": "^6.4.0",
-    "typesafe-actions": "^3.0.0"
+    "typesafe-actions": "^3.0.0",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts-ts-antd start",

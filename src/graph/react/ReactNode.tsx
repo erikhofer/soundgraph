@@ -1,6 +1,11 @@
 import { FunctionComponent } from 'react'
 import { Node } from '../Node'
 
+export type ReactNodeComponent<OPTIONS> = FunctionComponent<{
+  options: OPTIONS
+  setOptions: (options: OPTIONS) => void
+}>
+
 export abstract class ReactNode<TYPE extends string, OPTIONS> extends Node<
   TYPE,
   OPTIONS & { reactComponentVisible: boolean }
@@ -8,8 +13,5 @@ export abstract class ReactNode<TYPE extends string, OPTIONS> extends Node<
   /**
    * Override to provide additional UI for the node.
    */
-  public reactComponent?: FunctionComponent<{
-    options: OPTIONS
-    updateOptions: (options: OPTIONS) => void
-  }>
+  public reactComponent?: ReactNodeComponent<OPTIONS>
 }

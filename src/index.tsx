@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import App from './App'
 import { Graph } from './graph/Graph'
+import { GraphProvider } from './graph/react/GraphContext'
 import './index.scss'
 import { SoundgraphNodeFactory } from './nodes/SoundgraphNodeFactory'
 import registerServiceWorker from './registerServiceWorker'
@@ -23,7 +24,9 @@ const store = createAppStore(services)
 
 const app = (
   <Provider store={store}>
-    <App />
+    <GraphProvider value={graph}>
+      <App />
+    </GraphProvider>
   </Provider>
 )
 

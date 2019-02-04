@@ -1,4 +1,5 @@
 import { NodeDefinition } from 'cytoscape'
+import { Point } from './Util'
 
 export type CytoscapeNodeDefinition = NodeDefinition & {
   scratch?: {
@@ -13,14 +14,10 @@ export type NodeType<NODE extends Node<any, any>> = NODE extends Node<
   ? TYPE
   : never
 
-export interface Point {
-  x: number
-  y: number
-}
-
 export abstract class Node<TYPE extends string, OPTIONS> {
   public name: string
   public position: Point
+  public readonly options: OPTIONS
 
   public constructor(public readonly type: TYPE, public readonly id: string) {
     this.name = this.constructor.name
@@ -28,6 +25,16 @@ export abstract class Node<TYPE extends string, OPTIONS> {
       x: 0,
       y: 0
     }
+    this.setOptions({})
+  }
+
+  public setOptions(options: Partial<OPTIONS>) {
+    const mergedOptions = {
+      ...this.options,
+      ...options
+    }
+    // @ts-ignore
+    this.options = mergedOptions
   }
 
   public abstract get numberOfInputs(): number

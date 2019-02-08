@@ -1,9 +1,9 @@
-import Cytoscape from 'cytoscape'
 import React from 'react'
+import { Cy } from '../Graph'
 
 export interface PopperWrapperProps {
   nodeId: string
-  cy: Cytoscape.Core
+  cy: Cy
 }
 
 /**

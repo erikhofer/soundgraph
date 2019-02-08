@@ -2,7 +2,7 @@ import Cytoscape, { CytoscapeOptions } from 'cytoscape'
 import Popper from 'cytoscape-popper'
 import React from 'react'
 import CytoscapeComponent from 'react-cytoscapejs'
-import { cytographStyle } from '../Graph'
+import { Cy, cytoscapeEdgehandlesSettings, cytoscapeStyle } from '../Graph'
 import { CytoscapeNodeDefinition } from '../Node'
 import { GraphContext } from './GraphContext'
 import PopperWrapper from './PopperWrapper'
@@ -25,7 +25,7 @@ export default class GraphComponent extends React.Component<
   public static readonly contextType = GraphContext
 
   public context!: React.ContextType<typeof GraphContext>
-  private cy: Cytoscape.Core
+  private cy: Cy
 
   public render() {
     const test = process && process.env && process.env.NODE_ENV === 'test'
@@ -43,7 +43,7 @@ export default class GraphComponent extends React.Component<
       <React.Fragment>
         <CytoscapeComponent
           {...cytoscapeOptions}
-          stylesheet={cytographStyle}
+          stylesheet={cytoscapeStyle}
           cy={this.connectCytoscape}
           style={{ width: '100%', height: '100%' }}
         />
@@ -86,8 +86,9 @@ export default class GraphComponent extends React.Component<
     return components
   }
 
-  private connectCytoscape = (cy: Cytoscape.Core) => {
+  private connectCytoscape = (cy: Cy) => {
     // setState() would refresh the component and we end up here again
     this.cy = cy
+    cy.edgehandles(cytoscapeEdgehandlesSettings)
   }
 }

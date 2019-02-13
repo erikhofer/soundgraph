@@ -11,6 +11,10 @@ export const nodeReducer: Reducer<CytoscapeNodeDefinition[], AppAction> = (
   switch (action.type) {
     case getType(nodeActions.createNode.success):
       return [...state, ...action.payload]
+    case getType(nodeActions.setNodePosition.success):
+      // Cytoscape already mutates the state (yeah...), we can't do it again
+      // here because that somehow breaks everything
+      return state
   }
   return state
 }

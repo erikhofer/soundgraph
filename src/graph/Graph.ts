@@ -1,6 +1,6 @@
 import Cytoscape from 'cytoscape'
 import CytoscapeEdgehandles from 'cytoscape-edgehandles'
-import { Edge } from './Edge'
+import { CytoscapeEdgeDefinition, Edge } from './Edge'
 import { Node, NodeType } from './Node'
 import { NodeFactory } from './NodeFactory'
 
@@ -8,7 +8,6 @@ Cytoscape.use(CytoscapeEdgehandles)
 
 export class Graph<NODE extends Node<any, any>> {
   private nodes = new Map<string, NODE>()
-  // @ts-ignore
   private edges: Edge[] = []
 
   public constructor(private readonly nodeFactory: NodeFactory<NODE>) {}
@@ -24,7 +23,32 @@ export class Graph<NODE extends Node<any, any>> {
   }
 
   public removeNode(id: string) {
-    //
+    this.nodes.delete(id)
+    this.edges = this.edges.filter(
+      e => e.sourceNodeId !== id && e.destinationNodeId !== id
+    )
+  }
+
+  public addEdge(edge: Edge) {
+    this.edges.push(edge)
+    return this.getCytoscapeEdgeDefinition(edge)
+  }
+
+  public getCytoscapeEdgeDefinition(edge: Edge): CytoscapeEdgeDefinition {
+    return {
+      data: {
+        id:
+          edge.sourceNodeId +
+          '-' +
+          edge.sourceOutputIndex +
+          '-' +
+          edge.destinationNodeId +
+          '-' +
+          edge.destinationInputIndex,
+        source: edge.destinationNodeId,
+        target: edge.destinationNodeId
+      }
+    }
   }
 }
 

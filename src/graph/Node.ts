@@ -46,7 +46,8 @@ export abstract class Node<TYPE extends string, OPTIONS> {
     defs.push({
       data: {
         id: this.id,
-        label: this.name
+        label: this.name,
+        root: true
       },
       position: this.position
     })

@@ -46,7 +46,8 @@ export abstract class Node<TYPE extends string, OPTIONS> {
     defs.push({
       data: {
         id: this.id,
-        label: this.name
+        label: this.name,
+        root: true
       },
       position: this.position
     })
@@ -56,7 +57,8 @@ export abstract class Node<TYPE extends string, OPTIONS> {
         data: {
           id: this.id + '-input-' + i,
           parent: this.id,
-          label: 'Input ' + i
+          label: 'Input ' + i,
+          input: true
         },
         position: {
           x: 0,
@@ -71,7 +73,8 @@ export abstract class Node<TYPE extends string, OPTIONS> {
         data: {
           id: this.id + '-output-' + i,
           parent: this.id,
-          label: 'Output ' + i
+          label: 'Output ' + i,
+          output: true
         },
         position: {
           x: 100,

@@ -7,11 +7,12 @@ import {
 import { Services } from '../../services'
 import { AppAction } from '../actions'
 import { AppState } from '../state/app.state'
+import { edgeEpic } from './edge.epic'
 import { nodeEpic } from './node.epic'
 
 export type AppEpic = Epic<AppAction, AppAction, AppState, Services>
 
-export const appEpic = combineEpics(nodeEpic)
+export const appEpic = combineEpics(nodeEpic, edgeEpic)
 
 export function createAppEpicMiddleware(
   services: Services

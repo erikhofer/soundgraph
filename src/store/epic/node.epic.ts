@@ -24,4 +24,20 @@ const setNodeOptionsEpic: AppEpic = (action$, _, { graph }) =>
     map(nodeActions.setNodeOptions.success)
   )
 
-export const nodeEpic = combineEpics(createNodeEpic, setNodeOptionsEpic)
+const setNodePositionEpic: AppEpic = (action$, _, { graph }) =>
+  action$.pipe(
+    filter(isActionOf(nodeActions.setNodePosition.request)),
+    map(action => {
+      const { id, position } = action.payload
+      const node = graph.getNode(id) as Node<any, any>
+      node.position = position
+      return node.cytoscapeDefinitions
+    }),
+    map(nodeActions.setNodePosition.success)
+  )
+
+export const nodeEpic = combineEpics(
+  createNodeEpic,
+  setNodeOptionsEpic,
+  setNodePositionEpic
+)

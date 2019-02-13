@@ -47,7 +47,11 @@ export class ReactAudioNodeAdapter<
     output?: number | undefined
   ): void
   public connect(destination: any, output?: any, input?: any) {
-    return this.audioNode.connect(destination, output, input)
+    return this.audioNode.connect(
+      this.getNativeDestination(destination),
+      output,
+      input
+    )
   }
 
   public disconnect(output?: number): void
@@ -58,7 +62,11 @@ export class ReactAudioNodeAdapter<
   ): void
   public disconnect(destinationParam: AudioParam, output?: number): void
   public disconnect(destination?: any, output?: any, input?: any) {
-    return this.audioNode.disconnect(destination, output, input)
+    return this.audioNode.disconnect(
+      this.getNativeDestination(destination),
+      output,
+      input
+    )
   }
 
   public addEventListener(
@@ -79,5 +87,16 @@ export class ReactAudioNodeAdapter<
     options?: boolean | EventListenerOptions | undefined
   ): void {
     return this.audioNode.removeEventListener(type, callback, options)
+  }
+
+  /**
+   * The AudioNode interface does not work like an interface in _real_ programming languages.
+   * This breaks the adapter pattern, we need to get the actual native AudioNode for (dis)connect.
+   */
+  private getNativeDestination(destination: any) {
+    if (destination instanceof ReactAudioNodeAdapter) {
+      return destination.audioNode
+    }
+    return destination
   }
 }

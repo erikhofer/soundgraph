@@ -23,6 +23,8 @@ class GraphContainer extends React.Component<GraphContainerProps> {
         setOptions={this.setOptions}
         setPostion={this.setPosition}
         addEdge={this.addEdge}
+        deleteNode={this.deleteNode}
+        deleteEdge={this.deleteEdge}
       />
     )
   }
@@ -35,6 +37,12 @@ class GraphContainer extends React.Component<GraphContainerProps> {
 
   private setPosition = (id: string, position: Point) =>
     this.props.dispatch(nodeActions.setNodePosition.request({ id, position }))
+
+  // tslint:disable-next-line
+  private deleteNode = (id: string) => console.log('TODO delete node', id)
+
+  // tslint:disable-next-line
+  private deleteEdge = (edge: Edge) => console.log('TODO delete edge', edge)
 }
 
 export default connect(

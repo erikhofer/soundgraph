@@ -4,7 +4,12 @@ import { cloneDeep, debounce } from 'lodash'
 import React from 'react'
 import CytoscapeComponent from 'react-cytoscapejs'
 import { CytoscapeEdgeDefinition, Edge } from '../Edge'
-import { Cy, cytoscapeEdgehandlesSettings, cytoscapeStyle } from '../Graph'
+import {
+  Cy,
+  cytoscapeCxtmenuSettings,
+  cytoscapeEdgehandlesSettings,
+  cytoscapeStyle
+} from '../Graph'
 import { CytoscapeNodeDefinition } from '../Node'
 import { Point } from '../Util'
 import { GraphContext } from './GraphContext'
@@ -23,6 +28,8 @@ export interface GraphComponentProps {
   setOptions?: (id: string, options: any) => void
   addEdge?: (edge: Edge) => void
   setPostion?: (id: string, position: Point) => void
+  deleteNode?: (id: string) => void
+  deleteEdge?: (edge: Edge) => void
 }
 
 export default class GraphComponent extends React.Component<
@@ -100,8 +107,10 @@ export default class GraphComponent extends React.Component<
     // setState() would refresh the component and we end up here again
     this.cy = cy
     cy.edgehandles(cytoscapeEdgehandlesSettings)
+    cy.cxtmenu(cytoscapeCxtmenuSettings.nodes(this.deleteNode))
+    cy.cxtmenu(cytoscapeCxtmenuSettings.edges(this.deleteEdge))
 
-    // debouce to only handle final position after drop
+    // debounce to only handle final position after drop
     if (this.props.setPostion) {
       cy.on(
         'position',
@@ -136,6 +145,18 @@ export default class GraphComponent extends React.Component<
         destinationNodeId: targetNode.data('parent'),
         destinationInputIndex: parseInt(targetNode.data('id').slice(-1), 10)
       })
+    }
+  }
+
+  private deleteNode = (id: string) => {
+    if (this.props.deleteNode) {
+      this.props.deleteNode(id)
+    }
+  }
+
+  private deleteEdge = (edge: Edge) => {
+    if (this.props.deleteEdge) {
+      this.props.deleteEdge(edge)
     }
   }
 }

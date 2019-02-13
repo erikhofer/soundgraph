@@ -1,10 +1,13 @@
 import Cytoscape from 'cytoscape'
+import CytoscapeCxtmenu from 'cytoscape-cxtmenu'
 import CytoscapeEdgehandles from 'cytoscape-edgehandles'
+import 'font-awesome/css/font-awesome.css'
 import { CytoscapeEdgeDefinition, Edge } from './Edge'
 import { Node, NodeType } from './Node'
 import { NodeFactory } from './NodeFactory'
 
 Cytoscape.use(CytoscapeEdgehandles)
+Cytoscape.use(CytoscapeCxtmenu)
 
 export class Graph<NODE extends Node<any, any>> {
   private nodes = new Map<string, NODE>()
@@ -57,6 +60,7 @@ export class Graph<NODE extends Node<any, any>> {
  */
 export interface Cy extends Cytoscape.Core {
   edgehandles(settings: any): any
+  cxtmenu(settings: any): any
 }
 
 const cytoscapeEdgehandlesStyles: Cytoscape.Stylesheet[] = [
@@ -152,3 +156,46 @@ export const cytoscapeEdgehandlesSettings = {
     return 'middle center'
   }
 }
+
+export const cytoscapeCxtmenuSettings = {
+  nodes: (deleteNode: (id: string) => void) => ({
+    selector: 'node[root]',
+    commands: [
+      {
+        content: '<span class="fa fa-trash fa-2x"></span>',
+        select(ele: any) {
+          // Event gets raised multiple times and _.debounce doensn't work
+          if (lastDeleteNodeTime + 200 > Date.now()) {
+            return
+          }
+          lastDeleteNodeTime = Date.now()
+          deleteNode(ele.id())
+        }
+      }
+    ]
+  }),
+  edges: (deleteEdge: (edege: Edge) => void) => ({
+    selector: 'edge',
+    commands: [
+      {
+        content: '<span class="fa fa-trash fa-2x"></span>',
+        select: (ele: any) => {
+          // Event gets raised multiple times and _.debounce doensn't work
+          if (lastDeleteEdgeTime + 200 > Date.now()) {
+            return
+          }
+          lastDeleteEdgeTime = Date.now()
+          deleteEdge({
+            sourceNodeId: ele.data('source').slice(0, -9),
+            sourceOutputIndex: parseInt(ele.data('source').slice(-1), 10),
+            destinationNodeId: ele.data('target').slice(0, -8),
+            destinationInputIndex: parseInt(ele.data('target').slice(-1), 10)
+          })
+        }
+      }
+    ]
+  })
+}
+
+let lastDeleteNodeTime = 0
+let lastDeleteEdgeTime = 0

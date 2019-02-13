@@ -140,12 +140,11 @@ export const cytoscapeStyle: Cytoscape.Stylesheet[] = [
 export const cytoscapeEdgehandlesSettings = {
   handleNodes: 'node[output]',
   edgeType(sourceNode: any, targetNode: any) {
-    const target = targetNode._private
-    const source = sourceNode._private
-    if (target && source && target.data && source.data) {
-      if (target.data.input && target.data.parent !== source.data.parent) {
-        return 'flat'
-      }
+    if (
+      targetNode.data('input') &&
+      targetNode.data('parent') !== sourceNode.data('parent')
+    ) {
+      return 'flat'
     }
     return null
   },

@@ -1,13 +1,13 @@
 import { ActionType } from 'typesafe-actions'
 import * as edgeActions from './edge.actions'
 import * as nodeActions from './node.actions'
-import * as playingActions from './playing.actions'
+import * as playbackActions from './playback.actions'
 
 export type AppAction =
-  | ActionType<typeof playingActions>
+  | ActionType<typeof playbackActions>
   | ActionType<typeof nodeActions>
   | ActionType<typeof edgeActions>
 
 export type AppPayloadAction<P> = AppAction & { payload: P }
 
-export { playingActions, nodeActions, edgeActions }
+export { playbackActions, nodeActions, edgeActions }

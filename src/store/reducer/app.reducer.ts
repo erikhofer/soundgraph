@@ -2,11 +2,11 @@ import { combineReducers } from 'redux'
 import { AppAction, AppState } from '../'
 import { edgeReducer } from './edge.reducer'
 import { nodeReducer } from './node.reducer'
-import { playingReducer } from './playing.reducer'
+import { playbackReducer } from './playback.reducer'
 
 export const createAppReducer = () =>
   combineReducers<AppState, AppAction>({
-    playing: playingReducer,
     nodes: nodeReducer,
-    edges: edgeReducer
+    edges: edgeReducer,
+    playback: playbackReducer
   })

@@ -7,7 +7,7 @@ import { PlaybackState } from '../state/playback.state'
 export const playbackReducer: Reducer<PlaybackState, AppAction> = (
   state = {
     status: 'stopped',
-    duration: 0
+    duration: 10
   },
   action
 ) => {

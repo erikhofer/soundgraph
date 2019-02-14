@@ -17,7 +17,8 @@ const graph = new Graph(nodeFactory)
 
 const services: Services = {
   info: antDesignInfo,
-  graph
+  graph,
+  audioContext
 }
 
 const store = createAppStore(services)

@@ -5,6 +5,7 @@ import { antDesignInfo, InfoService } from './info.service'
 export interface Services {
   info: InfoService
   graph: Graph<SoundgraphNode>
+  audioContext: AudioContext
 }
 
 export { antDesignInfo }

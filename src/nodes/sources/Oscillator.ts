@@ -7,5 +7,6 @@ export class Oscillator extends ReactAudioNodeAdapter<
 > {
   constructor(id: string, context: AudioContext) {
     super('Oscillator', id, context.createOscillator())
+    this.audioNode.start()
   }
 }

@@ -9,6 +9,7 @@ import { SoundgraphNodeFactory } from './nodes/SoundgraphNodeFactory'
 import registerServiceWorker from './registerServiceWorker'
 import { Services } from './services'
 import { antDesignInfo } from './services'
+import { ScheduleService } from './services/schedule.service'
 import { createAppStore } from './store'
 
 const audioContext = new AudioContext()
@@ -17,7 +18,9 @@ const graph = new Graph(nodeFactory)
 
 const services: Services = {
   info: antDesignInfo,
-  graph
+  graph,
+  audioContext,
+  scheduler: new ScheduleService()
 }
 
 const store = createAppStore(services)

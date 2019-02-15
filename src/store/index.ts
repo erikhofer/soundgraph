@@ -11,11 +11,13 @@ export { AppState, AppAction }
 export type AppStore = Store<AppState, AppAction>
 
 export function createAppStore(services: Services): AppStore {
+  services.audioContext.suspend()
   const epicMiddleware = createAppEpicMiddleware(services)
   const store = createStore(
     createAppReducer(),
     composeWithDevTools(applyMiddleware(epicMiddleware))
   )
+  services.scheduler.store = store
   epicMiddleware.run(appEpic)
   return store
 }

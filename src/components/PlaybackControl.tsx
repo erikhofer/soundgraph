@@ -1,4 +1,5 @@
-import { Button, Progress } from 'antd'
+import { Button, Progress, TimePicker } from 'antd'
+import moment from 'moment'
 import React from 'react'
 import { connect } from 'react-redux'
 import { AppState, DispatchProps, mapDispatchToProps } from '../store'
@@ -6,10 +7,14 @@ import { playbackActions } from '../store/actions'
 import { PlaybackState } from '../store/state/playback.state'
 import { PROTECTED_SPACE } from '../util'
 
+/** update elapsedTime every x ms */
+const UPDATE_RATE = 100
+
 interface PlaybackControlProps extends DispatchProps, PlaybackState {}
 
 interface PlaybackControlState {
   elapsedTime: number
+  selectedDuration: number
 }
 
 const mapStateToProps = (state: AppState) => ({ ...state.playback })
@@ -19,21 +24,31 @@ class PlaybackControl extends React.Component<
   PlaybackControlState
 > {
   public state: PlaybackControlState = {
-    elapsedTime: 0
+    elapsedTime: 0,
+    selectedDuration: this.props.duration
   }
 
   public render() {
     const { status, duration } = this.props
-    const { elapsedTime } = this.state
+    const { elapsedTime, selectedDuration } = this.state
     return (
       <div style={{ display: 'flex' }}>
-        <div style={{ flexGrow: 1 }}>
+        <div style={{ flexGrow: 1, paddingRight: 50, paddingTop: 8 }}>
           <Progress
             percent={duration > 0 ? (elapsedTime / duration) * 100 : 0}
+            showInfo={false}
           />
         </div>
         <div>
-          {PROTECTED_SPACE}
+          {this.renderElapsedTime()} /{PROTECTED_SPACE}
+          <TimePicker
+            value={moment('00:00:00', 'HH:mm:ss').milliseconds(
+              selectedDuration
+            )}
+            onChange={this.setSelectedDuration}
+            onOpenChange={this.handleDurationSelection}
+          />
+          <span style={{ display: 'inline-block', width: 50 }} />
           <Button
             type="primary"
             shape="circle"
@@ -58,21 +73,45 @@ class PlaybackControl extends React.Component<
     prevProps: PlaybackControlProps,
     prevState: PlaybackControlState
   ) {
-    const { status } = this.props
+    const { status, pausedAt } = this.props
     if (status !== prevProps.status) {
       if (status === 'stopped') {
         this.setState({ elapsedTime: 0 })
       }
       if (status === 'running') {
-        setTimeout(this.incrementElapsedTime, 1000)
+        setTimeout(this.updateElapsedTime, UPDATE_RATE)
       }
+    }
+    if (status === 'paused' && this.state.elapsedTime !== pausedAt) {
+      this.setState({ elapsedTime: pausedAt })
     }
   }
 
-  private incrementElapsedTime = () => {
-    if (this.props.status === 'running') {
-      this.setState({ elapsedTime: this.state.elapsedTime + 1 })
-      setTimeout(this.incrementElapsedTime, 1000)
+  private setSelectedDuration = (duration: moment.Moment) => {
+    const selectedDuration = duration
+      ? duration.seconds() * 1000 +
+        duration.minutes() * 60 * 1000 +
+        duration.hours() * 60 * 60 * 1000
+      : 0
+    this.setState({ selectedDuration })
+  }
+
+  private handleDurationSelection = (pickerOpen: boolean) => {
+    if (!pickerOpen && this.state.selectedDuration !== this.props.duration) {
+      this.props.dispatch(
+        playbackActions.setPlaybackDuration.request(this.state.selectedDuration)
+      )
+    }
+  }
+
+  private updateElapsedTime = () => {
+    const { status, startTime, pausedAt } = this.props
+    if (status === 'running') {
+      this.setState({
+        // just increasing by UPDATE_RATE is too unprecise
+        elapsedTime: new Date().getTime() - startTime + pausedAt
+      })
+      setTimeout(this.updateElapsedTime, UPDATE_RATE)
     }
   }
 
@@ -82,6 +121,12 @@ class PlaybackControl extends React.Component<
         this.props.status === 'running' ? 'paused' : 'running'
       )
     )
+  }
+
+  private renderElapsedTime() {
+    return moment('00:00:00', 'HH:mm:ss')
+      .milliseconds(this.state.elapsedTime)
+      .format('HH:mm:ss')
   }
 
   private handleStop = () => {

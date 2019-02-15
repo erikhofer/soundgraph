@@ -17,6 +17,7 @@ export function createAppStore(services: Services): AppStore {
     createAppReducer(),
     composeWithDevTools(applyMiddleware(epicMiddleware))
   )
+  services.scheduler.store = store
   epicMiddleware.run(appEpic)
   return store
 }

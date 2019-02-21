@@ -15,6 +15,8 @@ export const nodeReducer: Reducer<CytoscapeNodeDefinition[], AppAction> = (
       // Cytoscape already mutates the state (yeah...), we can't do it again
       // here because that somehow breaks everything
       return state
+    case getType(nodeActions.deleteNode.success):
+      return state
   }
   return state
 }

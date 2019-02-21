@@ -1,6 +1,6 @@
 import { combineEpics } from 'redux-observable'
 import { filter, map } from 'rxjs/operators'
-import { isActionOf } from 'typesafe-actions'
+import { action, isActionOf } from 'typesafe-actions'
 import { AppEpic } from '.'
 import { Node } from '../../graph/Node'
 import { nodeActions } from '../actions'
@@ -36,8 +36,24 @@ const setNodePositionEpic: AppEpic = (action$, _, { graph }) =>
     map(nodeActions.setNodePosition.success)
   )
 
+const deleteNodeEpic: AppEpic = (action$, _, { graph }) =>
+  action$.pipe(
+    filter(isActionOf(nodeActions.deleteNode.request)),
+    map(action => {
+      const node = graph.getNode(action.payload)
+      graph.removeNode(action.payload)
+      if (node !== undefined) {
+        return node.cytoscapeDefinitions
+      } else {
+        map(nodeActions.deleteNode.failure)
+      }
+    }),
+    map(nodeActions.deleteNode.success)
+  )
+
 export const nodeEpic = combineEpics(
   createNodeEpic,
   setNodeOptionsEpic,
-  setNodePositionEpic
+  setNodePositionEpic,
+  deleteNodeEpic
 )

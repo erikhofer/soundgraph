@@ -25,4 +25,4 @@ export const deleteNode = createAsyncAction(
   'DELETE_NODE_REQUEST',
   'DELETE_NODE_SUCCESS',
   'DELETE_NODE_FAILURE'
-)<{ id: string }, CytoscapeNodeDefinition[], Error>()
+)<string, CytoscapeNodeDefinition[], Error>()

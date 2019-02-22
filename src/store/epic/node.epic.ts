@@ -1,6 +1,6 @@
 import { combineEpics } from 'redux-observable'
 import { filter, map } from 'rxjs/operators'
-import { action, isActionOf } from 'typesafe-actions'
+import { isActionOf } from 'typesafe-actions'
 import { AppEpic } from '.'
 import { Node } from '../../graph/Node'
 import { nodeActions } from '../actions'
@@ -46,6 +46,7 @@ const deleteNodeEpic: AppEpic = (action$, _, { graph }) =>
         return node.cytoscapeDefinitions
       } else {
         map(nodeActions.deleteNode.failure)
+        return undefined
       }
     }),
     map(nodeActions.deleteNode.success)

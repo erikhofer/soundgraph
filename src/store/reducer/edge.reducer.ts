@@ -11,6 +11,16 @@ export const edgeReducer: Reducer<CytoscapeEdgeDefinition[], AppAction> = (
   switch (action.type) {
     case getType(edgeActions.createEdge.success):
       return [...state, action.payload]
+    case getType(edgeActions.deleteEdge.success):
+      console.log('alter: ' + state)
+      console.log(state)
+      const removeIndex = state.findIndex(
+        obj => obj.data.id === action.payload.data.id
+      )
+      state.splice(removeIndex, 1)
+      console.log('neuer: ' + state)
+      console.log(state)
+      return state
   }
   return state
 }

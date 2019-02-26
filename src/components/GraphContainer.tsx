@@ -42,7 +42,8 @@ class GraphContainer extends React.Component<GraphContainerProps> {
     this.props.dispatch(nodeActions.deleteNode.request(id))
 
   // tslint:disable-next-line
-  private deleteEdge = (edge: Edge) => console.log('TODO delete edge', edge)
+  private deleteEdge = (edge: Edge) =>
+    this.props.dispatch(edgeActions.deleteEdge.request(edge))
 }
 
 export default connect(

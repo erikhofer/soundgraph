@@ -18,8 +18,8 @@ export class Gain extends ReactAudioNodeAdapter<'Gain', GainOptions, GainNode> {
     return (
       <div style={{ width: 200 }}>
         <Slider
-          min={-3.4}
-          max={3.4}
+          min={-1}
+          max={1}
           defaultValue={props.options.gain}
           onAfterChange={onAfterChange}
           step={0.01}

@@ -8,7 +8,7 @@ import { nodeActions } from '../actions'
 const createNodeEpic: AppEpic = (action$, _, { graph }) =>
   action$.pipe(
     filter(isActionOf(nodeActions.createNode.request)),
-    map(action => graph.createNode(action.payload).cytoscapeDefinitions),
+    map(action => graph.createNode(action.payload).getCytoscapeDefinitions()),
     map(nodeActions.createNode.success)
   )
 
@@ -19,7 +19,7 @@ const setNodeOptionsEpic: AppEpic = (action$, _, { graph }) =>
       const { id, options } = action.payload
       const node = graph.getNode(id) as Node<any, any>
       node.setOptions(options)
-      return node.cytoscapeDefinitions
+      return { id, cytoscapeDefinition: node.getCytoscapeDefinitions() }
     }),
     map(nodeActions.setNodeOptions.success)
   )
@@ -31,7 +31,7 @@ const setNodePositionEpic: AppEpic = (action$, _, { graph }) =>
       const { id, position } = action.payload
       const node = graph.getNode(id) as Node<any, any>
       node.position = position
-      return node.cytoscapeDefinitions
+      return node.getCytoscapeDefinitions()
     }),
     map(nodeActions.setNodePosition.success)
   )

@@ -163,7 +163,6 @@ export default class GraphComponent extends React.Component<
   }
 
   private deleteEdge = (edge: Edge) => {
-    this.cy.emit('edgeDeleted')
     if (this.props.deleteEdge) {
       this.props.deleteEdge(edge)
     }

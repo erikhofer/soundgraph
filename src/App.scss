@@ -10,4 +10,9 @@
   background: white;
   border: 1px rgb(192, 192, 192) solid;
   margin-top: 3px;
+  padding: 10px;
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
 }

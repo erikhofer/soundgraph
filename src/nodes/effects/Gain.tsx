@@ -17,9 +17,10 @@ export class Gain extends ReactAudioNodeAdapter<'Gain', GainOptions, GainNode> {
     const onAfterChange = (value: number) => props.setOptions({ gain: value })
     return (
       <div className="options-ui">
+        Gain value
         <Slider
-          min={-3.4}
-          max={3.4}
+          min={-1}
+          max={1}
           defaultValue={props.options.gain}
           onAfterChange={onAfterChange}
           step={0.01}

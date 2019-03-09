@@ -43,7 +43,7 @@ const deleteNodeEpic: AppEpic = (action$, _, { graph }) =>
       const node = graph.getNode(action.payload)
       graph.removeNode(action.payload)
       if (node !== undefined) {
-        return node.cytoscapeDefinitions
+        return node.getCytoscapeDefinitions()
       } else {
         map(nodeActions.deleteNode.failure)
         return undefined

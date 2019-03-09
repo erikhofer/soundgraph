@@ -20,7 +20,8 @@ export class Delay extends ReactAudioNodeAdapter<
   public reactComponent: ReactNodeComponent<DelayOptions> = props => {
     const onAfterChange = (value: number) => props.setOptions({ delay: value })
     return (
-      <div style={{ width: 200 }}>
+      <div className="options-ui">
+        Delay in seconds
         <Slider
           min={0.0}
           max={10}

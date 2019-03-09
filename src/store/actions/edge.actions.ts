@@ -11,4 +11,4 @@ export const deleteEdge = createAsyncAction(
   'DELETE_EDGE_REQUEST',
   'DELETE_EDGE_SUCCESS',
   'DELETE_EDGE_FAILURE'
-)<Edge, CytoscapeEdgeDefinition, Error>()
+)<Edge, string, Error>()

@@ -24,16 +24,7 @@ const createEdgeEpic: AppEpic = (action$, _, { graph }) =>
 const deleteEdgeEpic: AppEpic = (action$, _, { graph }) =>
   action$.pipe(
     filter(isActionOf(edgeActions.deleteEdge.request)),
-    map(action => {
-      const edgeDefinition = graph.getCytoscapeEdgeDefinition(action.payload)
-      if (edgeDefinition.data.id !== undefined) {
-        graph.removeNode(edgeDefinition.data.id)
-        return edgeDefinition
-      } else {
-        map(edgeActions.deleteEdge.failure)
-        return undefined
-      }
-    }),
+    map(action => graph.removeEdge(action.payload)),
     map(edgeActions.deleteEdge.success)
   )
 

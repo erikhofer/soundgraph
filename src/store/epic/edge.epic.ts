@@ -21,4 +21,11 @@ const createEdgeEpic: AppEpic = (action$, _, { graph }) =>
     map(edgeActions.createEdge.success)
   )
 
-export const edgeEpic = combineEpics(createEdgeEpic)
+const deleteEdgeEpic: AppEpic = (action$, _, { graph }) =>
+  action$.pipe(
+    filter(isActionOf(edgeActions.deleteEdge.request)),
+    map(action => graph.removeEdge(action.payload)),
+    map(edgeActions.deleteEdge.success)
+  )
+
+export const edgeEpic = combineEpics(createEdgeEpic, deleteEdgeEpic)

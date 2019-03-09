@@ -21,6 +21,19 @@ export const nodeReducer: Reducer<CytoscapeNodeDefinition[], AppAction> = (
         ...action.payload.cytoscapeDefinition
       ]
     }
+    case getType(nodeActions.deleteNode.success):
+      const r1 = state.filter(obj => {
+        return !action.payload.some(obj2 => {
+          return obj.data.id === obj2.data.id
+        })
+      })
+      const r2 = action.payload.filter(obj => {
+        return !state.some(obj2 => {
+          return obj.data.id === obj2.data.id
+        })
+      })
+      const newState = r1.concat(r2)
+      return Array.from(newState)
   }
   return state
 }

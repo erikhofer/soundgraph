@@ -2,7 +2,7 @@ import Cytoscape from 'cytoscape'
 import CytoscapeCxtmenu from 'cytoscape-cxtmenu'
 import CytoscapeEdgehandles from 'cytoscape-edgehandles'
 import 'font-awesome/css/font-awesome.css'
-import { CytoscapeEdgeDefinition, Edge } from './Edge'
+import { CytoscapeEdgeDefinition, Edge, edgeEquals, getEdgeId } from './Edge'
 import { Node, NodeType } from './Node'
 import { NodeFactory } from './NodeFactory'
 
@@ -37,19 +37,17 @@ export class Graph<NODE extends Node<any, any>> {
     return this.getCytoscapeEdgeDefinition(edge)
   }
 
+  public removeEdge(edge: Edge) {
+    this.edges.filter(e => !edgeEquals(e, edge))
+    return getEdgeId(edge)
+  }
+
   public getCytoscapeEdgeDefinition(edge: Edge): CytoscapeEdgeDefinition {
     return {
       data: {
-        id:
-          edge.sourceNodeId +
-          '-' +
-          edge.sourceOutputIndex +
-          '-' +
-          edge.destinationNodeId +
-          '-' +
-          edge.destinationInputIndex,
-        source: edge.destinationNodeId,
-        target: edge.destinationNodeId
+        id: getEdgeId(edge),
+        source: `${edge.sourceNodeId}-output-${edge.sourceOutputIndex}`,
+        target: `${edge.destinationNodeId}-input-${edge.destinationInputIndex}`
       }
     }
   }

@@ -13,7 +13,11 @@ export const setNodeOptions = createAsyncAction(
   'SET_NODE_OPTIONS_REQUEST',
   'SET_NODE_OPTIONS_SUCCESS',
   'SET_NODE_OPTIONS_FAILURE'
-)<{ id: string; options: any }, CytoscapeNodeDefinition[], Error>()
+)<
+  { id: string; options: any },
+  { id: string; cytoscapeDefinition: CytoscapeNodeDefinition[] },
+  Error
+>()
 
 export const setNodePosition = createAsyncAction(
   'SET_NODE_POSITION_REQUEST',

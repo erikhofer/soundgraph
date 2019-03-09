@@ -27,7 +27,7 @@ export default class PopperWrapper extends React.Component<PopperWrapperProps> {
         popper.scheduleUpdate()
       }
       node.on('position', update)
-      cy.on('pan zoom resize', update)
+      cy.on('pan zoom resize optionsChanged', update)
     })
   }
 }

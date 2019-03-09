@@ -14,7 +14,7 @@ interface Categories {
 
 const categories: Categories = {
   Sources: ['Oscillator'],
-  Effects: ['Gain'],
+  Effects: ['Gain', 'Delay'],
   Destinations: ['Speakers']
 }
 

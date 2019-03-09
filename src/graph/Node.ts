@@ -40,7 +40,7 @@ export abstract class Node<TYPE extends string, OPTIONS> {
   public abstract get numberOfInputs(): number
   public abstract get numberOfOutputs(): number
 
-  public get cytoscapeDefinitions() {
+  public getCytoscapeDefinitions() {
     const defs: CytoscapeNodeDefinition[] = []
 
     defs.push({

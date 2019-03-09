@@ -85,16 +85,23 @@ export default class GraphComponent extends React.Component<
     for (const node of nodes) {
       if (node instanceof ReactNode) {
         if (node.reactComponent) {
-          const setOptions = (options: any) =>
+          const setOptions = (options: any) => {
+            this.cy.emit('optionsChanged') // needed for Popper update
             this.props.setOptions
               ? this.props.setOptions(node.id, options)
               : node.setOptions(options)
+          }
           components.push(
             <PopperWrapper cy={this.cy} key={node.id} nodeId={node.id}>
-              <node.reactComponent
+              <node.reactComponentWrapper
                 options={node.options}
                 setOptions={setOptions}
-              />
+              >
+                <node.reactComponent
+                  options={node.options}
+                  setOptions={setOptions}
+                />
+              </node.reactComponentWrapper>
             </PopperWrapper>
           )
         }

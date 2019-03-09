@@ -15,6 +15,15 @@ export const nodeReducer: Reducer<CytoscapeNodeDefinition[], AppAction> = (
       // Cytoscape already mutates the state (yeah...), we can't do it again
       // here because that somehow breaks everything
       return state
+    case getType(nodeActions.setNodeOptions.success): {
+      return [
+        ...removeNode(action.payload.id, state),
+        ...action.payload.cytoscapeDefinition
+      ]
+    }
   }
   return state
 }
+
+const removeNode = (id: string, state: CytoscapeNodeDefinition[]) =>
+  state.filter(d => d.data.id !== id && d.data.parent !== id)

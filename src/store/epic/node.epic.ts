@@ -19,7 +19,7 @@ const setNodeOptionsEpic: AppEpic = (action$, _, { graph }) =>
       const { id, options } = action.payload
       const node = graph.getNode(id) as Node<any, any>
       node.setOptions(options)
-      return node.getCytoscapeDefinitions()
+      return { id, cytoscapeDefinition: node.getCytoscapeDefinitions() }
     }),
     map(nodeActions.setNodeOptions.success)
   )

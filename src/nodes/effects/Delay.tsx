@@ -13,7 +13,7 @@ export class Delay extends ReactAudioNodeAdapter<
   DelayNode
 > {
   constructor(id: string, context: AudioContext) {
-    super('Delay', id, context.createDelay())
+    super('Delay', id, context.createDelay(10))
     this.setOptions({ delay: this.audioNode.delayTime.value })
   }
 

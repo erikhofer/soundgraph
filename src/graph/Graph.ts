@@ -68,6 +68,8 @@ const cytoscapeEdgehandlesStyles: Cytoscape.Stylesheet[] = [
     selector: '.eh-handle',
     style: {
       'background-color': 'red',
+      // make the handle invisble because there is a bug where it's not removed on mouse-out
+      'background-opacity': 0,
       width: 12,
       height: 12,
       shape: 'ellipse',

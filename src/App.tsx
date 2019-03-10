@@ -1,6 +1,7 @@
 import { Layout } from 'antd'
 import * as React from 'react'
 import './App.scss'
+import FileControl from './components/FileControl'
 import GraphContainer from './components/GraphContainer'
 import NodeLibrary from './components/NodeLibrary'
 import PlaybackControl from './components/PlaybackControl'
@@ -12,7 +13,11 @@ export default class App extends React.Component {
       <div className="App">
         <Layout>
           <Sider>
-            <NodeLibrary />
+            <div className="App-sidebar">
+              <h1>SoundGraph</h1>
+              <FileControl />
+              <NodeLibrary />
+            </div>
           </Sider>
           <Layout>
             <Content>

@@ -9,6 +9,7 @@ import { SoundgraphNodeFactory } from './nodes/SoundgraphNodeFactory'
 import registerServiceWorker from './registerServiceWorker'
 import { Services } from './services'
 import { antDesignInfo } from './services'
+import { FileService } from './services/file.service'
 import { ScheduleService } from './services/schedule.service'
 import { createAppStore } from './store'
 
@@ -20,10 +21,18 @@ const services: Services = {
   info: antDesignInfo,
   graph,
   audioContext,
-  scheduler: new ScheduleService()
+  scheduler: new ScheduleService(),
+  fileService: new FileService()
 }
 
 const store = createAppStore(services)
+
+window.onbeforeunload = () => {
+  if (store.getState().file.changed) {
+    return 'You have unsaved changes! If you leave the page, they will get lost.'
+  }
+  return
+}
 
 const app = (
   <Provider store={store}>

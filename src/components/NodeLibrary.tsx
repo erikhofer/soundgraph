@@ -21,8 +21,8 @@ const categories: Categories = {
 class NodeLibrary extends React.Component<DispatchProps> {
   public render() {
     return (
-      <div style={{ background: 'white', flexGrow: 1 }}>
-        <DirectoryTree onSelect={this.onSelect}>
+      <div style={{ background: 'white', flexGrow: 1, overflowY: 'auto' }}>
+        <DirectoryTree onSelect={this.onSelect} defaultExpandAll>
           {this.renderCategories()}
         </DirectoryTree>
       </div>

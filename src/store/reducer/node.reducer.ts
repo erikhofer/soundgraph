@@ -2,7 +2,7 @@ import { Reducer } from 'react'
 import { getType } from 'typesafe-actions'
 import { AppAction } from '..'
 import { CytoscapeNodeDefinition } from '../../graph/Node'
-import { nodeActions } from '../actions'
+import { fileActions, nodeActions } from '../actions'
 
 export const nodeReducer: Reducer<CytoscapeNodeDefinition[], AppAction> = (
   state = [],
@@ -34,6 +34,8 @@ export const nodeReducer: Reducer<CytoscapeNodeDefinition[], AppAction> = (
       })
       const newState = r1.concat(r2)
       return Array.from(newState)
+    case getType(fileActions.openFile.success):
+      return action.payload.nodes
   }
   return state
 }

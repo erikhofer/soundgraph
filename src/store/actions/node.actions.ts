@@ -23,7 +23,11 @@ export const setNodePosition = createAsyncAction(
   'SET_NODE_POSITION_REQUEST',
   'SET_NODE_POSITION_SUCCESS',
   'SET_NODE_POSITION_FAILURE'
-)<{ id: string; position: Point }, CytoscapeNodeDefinition[], Error>()
+)<
+  { id: string; position: Point },
+  { id: string; cytoscapeDefinition: CytoscapeNodeDefinition[] },
+  Error
+>()
 
 export const deleteNode = createAsyncAction(
   'DELETE_NODE_REQUEST',

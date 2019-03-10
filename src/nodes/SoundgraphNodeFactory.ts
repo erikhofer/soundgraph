@@ -9,8 +9,10 @@ import { Oscillator } from './sources/Oscillator'
 export class SoundgraphNodeFactory implements NodeFactory<SoundgraphNode> {
   public constructor(private audioContext: AudioContext) {}
 
-  public createNode(type: SoundgraphNodeType): SoundgraphNode {
-    const id = generateUuid()
+  public createNode(type: SoundgraphNodeType, id?: string): SoundgraphNode {
+    if (!id) {
+      id = generateUuid()
+    }
     const { audioContext } = this
     switch (type) {
       case 'Gain':

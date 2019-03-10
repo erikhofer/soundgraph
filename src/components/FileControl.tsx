@@ -1,8 +1,9 @@
-import { Button, Input } from 'antd'
+import { Button, Input, Upload } from 'antd'
 import React from 'react'
 import { connect } from 'react-redux'
 import { AppState, DispatchProps, mapDispatchToProps } from '../store'
 import { fileActions } from '../store/actions'
+import { FILE_SUFFIX } from '../store/epic/file.epic'
 import { FileState } from '../store/state/file.state'
 
 const mapStateToProps = ({ file }: AppState) => ({ ...file })
@@ -15,14 +16,23 @@ class FileControl extends React.Component<FileControlProps> {
     return (
       <div>
         <p>
-          <Input value={name} onChange={this.setFileName} addonAfter=".json" />
+          <Input
+            value={name}
+            onChange={this.setFileName}
+            addonAfter={FILE_SUFFIX}
+          />
         </p>
         <p>
-          <Button type={changed ? 'primary' : 'default'} block icon="save">
+          <Button
+            type={changed ? 'primary' : 'default'}
+            block
+            icon="save"
+            onClick={this.save}
+          >
             Save
           </Button>
         </p>
-        <p>
+        <Upload beforeUpload={this.open} fileList={[]} className="open-file">
           <Button
             type={changed ? 'danger' : 'default'}
             block
@@ -30,7 +40,7 @@ class FileControl extends React.Component<FileControlProps> {
           >
             Open
           </Button>
-        </p>
+        </Upload>
         <p>
           <Button type={changed ? 'danger' : 'default'} block icon="file">
             New
@@ -42,6 +52,27 @@ class FileControl extends React.Component<FileControlProps> {
 
   private setFileName = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.props.dispatch(fileActions.setFileName(e.target.value))
+  }
+
+  private save = () => {
+    this.props.dispatch(fileActions.saveFile.request())
+  }
+
+  private open = (file: File) => {
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      const content = reader.result
+      if (typeof content === 'string') {
+        this.props.dispatch(
+          fileActions.openFile.request({
+            name: file.name,
+            content
+          })
+        )
+      }
+    }
+    reader.readAsText(file)
+    return false // prevent Upload from doing anything
   }
 }
 

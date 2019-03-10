@@ -53,7 +53,14 @@ export default class GraphComponent extends React.Component<
 
     const cytoscapeOptions: CytoscapeOptions = {
       elements: nodes.concat(edges),
-      pan: { x: 300, y: 300 }
+      pan: { x: 300, y: 300 },
+      layout: {
+        name: 'preset',
+        fit: false,
+        positions: (node: any) => {
+          return node.data('position')
+        }
+      }
     }
 
     return (
@@ -87,7 +94,6 @@ export default class GraphComponent extends React.Component<
       if (node instanceof ReactNode) {
         if (node.reactComponent) {
           const setOptions = (options: any) => {
-            this.cy.emit('optionsChanged') // needed for Popper update
             this.props.setOptions
               ? this.props.setOptions(node.id, options)
               : node.setOptions(options)

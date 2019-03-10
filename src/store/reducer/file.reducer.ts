@@ -27,6 +27,11 @@ export const fileReducer: Reducer<FileState, AppAction> = (
     case getType(edgeActions.createEdge.success):
     case getType(edgeActions.deleteEdge.success):
       return { ...state, changed: true }
+    case getType(fileActions.newFile.success):
+    case getType(fileActions.saveFile.success):
+      return { ...state, changed: false }
+    case getType(fileActions.openFile.success):
+      return { ...state, changed: false, name: action.payload.fileName }
   }
   return state
 }

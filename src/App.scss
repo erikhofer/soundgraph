@@ -29,3 +29,12 @@
     margin-bottom: 0;
   }
 }
+
+.open-file {
+  margin-bottom: 14px;
+  &,
+  .ant-upload {
+    display: block;
+    width: 100%;
+  }
+}

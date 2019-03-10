@@ -2,7 +2,7 @@ import { Reducer } from 'react'
 import { getType } from 'typesafe-actions'
 import { AppAction } from '..'
 import { CytoscapeEdgeDefinition } from '../../graph/Edge'
-import { edgeActions } from '../actions'
+import { edgeActions, fileActions } from '../actions'
 
 export const edgeReducer: Reducer<CytoscapeEdgeDefinition[], AppAction> = (
   state = [],
@@ -13,6 +13,8 @@ export const edgeReducer: Reducer<CytoscapeEdgeDefinition[], AppAction> = (
       return [...state, action.payload]
     case getType(edgeActions.deleteEdge.success):
       return state.filter(e => e.data.id !== action.payload)
+    case getType(fileActions.openFile.success):
+      return action.payload.edges
   }
   return state
 }

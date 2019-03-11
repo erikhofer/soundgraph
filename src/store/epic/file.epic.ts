@@ -1,6 +1,6 @@
 import { combineEpics } from 'redux-observable'
 import { of } from 'rxjs'
-import { catchError, filter, flatMap, map } from 'rxjs/operators'
+import { catchError, filter, flatMap, map, tap } from 'rxjs/operators'
 import { isActionOf } from 'typesafe-actions'
 import { AppEpic } from '.'
 import { SoundgraphNodeType } from '../../nodes/SoundgraphNode'
@@ -75,10 +75,19 @@ const openFileEpic: AppEpic = (action$, state, { graph, fileService, info }) =>
       })
     }),
     catchError(err => {
-      console.log(err)
       info.errorMessage('' + err)
       return of(fileActions.openFile.failure(err))
     })
   )
 
-export const fileEpic = combineEpics(saveFileEpic, openFileEpic)
+const newFileEpic: AppEpic = (action$, _, { graph }) =>
+  action$.pipe(
+    filter(isActionOf(fileActions.newFile.request)),
+    tap(() => {
+      graph.removeAllEdges()
+      graph.removeAllNodes()
+    }),
+    map(fileActions.newFile.success)
+  )
+
+export const fileEpic = combineEpics(saveFileEpic, openFileEpic, newFileEpic)

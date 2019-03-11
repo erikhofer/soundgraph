@@ -36,6 +36,8 @@ export const nodeReducer: Reducer<CytoscapeNodeDefinition[], AppAction> = (
       return Array.from(newState)
     case getType(fileActions.openFile.success):
       return action.payload.nodes
+    case getType(fileActions.newFile.success):
+      return []
   }
   return state
 }

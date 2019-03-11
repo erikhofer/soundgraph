@@ -15,6 +15,8 @@ export const edgeReducer: Reducer<CytoscapeEdgeDefinition[], AppAction> = (
       return state.filter(e => e.data.id !== action.payload)
     case getType(fileActions.openFile.success):
       return action.payload.edges
+    case getType(fileActions.newFile.success):
+      return []
   }
   return state
 }

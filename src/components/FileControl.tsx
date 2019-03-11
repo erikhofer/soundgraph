@@ -42,7 +42,12 @@ class FileControl extends React.Component<FileControlProps> {
           </Button>
         </Upload>
         <p>
-          <Button type={changed ? 'danger' : 'default'} block icon="file">
+          <Button
+            type={changed ? 'danger' : 'default'}
+            block
+            icon="file"
+            onClick={this.newFile}
+          >
             New
           </Button>
         </p>
@@ -56,6 +61,10 @@ class FileControl extends React.Component<FileControlProps> {
 
   private save = () => {
     this.props.dispatch(fileActions.saveFile.request())
+  }
+
+  private newFile = () => {
+    this.props.dispatch(fileActions.newFile.request())
   }
 
   private open = (file: File) => {

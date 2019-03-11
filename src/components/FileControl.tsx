@@ -1,4 +1,4 @@
-import { Button, Input, Upload } from 'antd'
+import { Button, Input, Modal, Upload } from 'antd'
 import React from 'react'
 import { connect } from 'react-redux'
 import { AppState, DispatchProps, mapDispatchToProps } from '../store'
@@ -55,6 +55,24 @@ class FileControl extends React.Component<FileControlProps> {
     )
   }
 
+  private confirmIfUnsavedChanges = (action: () => void) => {
+    if (this.props.changed) {
+      Modal.confirm({
+        title: 'Are you sure?',
+        content: 'Unsaved changes will be discarded.',
+        onOk() {
+          action()
+          return
+        },
+        onCancel() {
+          return
+        }
+      })
+    } else {
+      action()
+    }
+  }
+
   private setFileName = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.props.dispatch(fileActions.setFileName(e.target.value))
   }
@@ -64,23 +82,27 @@ class FileControl extends React.Component<FileControlProps> {
   }
 
   private newFile = () => {
-    this.props.dispatch(fileActions.newFile.request())
+    this.confirmIfUnsavedChanges(() =>
+      this.props.dispatch(fileActions.newFile.request())
+    )
   }
 
   private open = (file: File) => {
-    const reader = new FileReader()
-    reader.onloadend = () => {
-      const content = reader.result
-      if (typeof content === 'string') {
-        this.props.dispatch(
-          fileActions.openFile.request({
-            name: file.name,
-            content
-          })
-        )
+    this.confirmIfUnsavedChanges(() => {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const content = reader.result
+        if (typeof content === 'string') {
+          this.props.dispatch(
+            fileActions.openFile.request({
+              name: file.name,
+              content
+            })
+          )
+        }
       }
-    }
-    reader.readAsText(file)
+      reader.readAsText(file)
+    })
     return false // prevent Upload from doing anything
   }
 }

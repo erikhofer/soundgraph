@@ -2,10 +2,10 @@ import { Modal, Tree } from 'antd'
 import { AntTreeNodeSelectedEvent } from 'antd/lib/tree'
 import React from 'react'
 import { connect } from 'react-redux'
-import { nodeFactory } from '..'
 import { DelayReactComponent } from '../nodes/effects/Delay'
 import { GainReactComponent } from '../nodes/effects/Gain'
 import { SoundgraphNodeType } from '../nodes/SoundgraphNode'
+import { OscillatorReactComponent } from '../nodes/sources/Oscillator'
 import { DispatchProps, mapDispatchToProps } from '../store'
 import { nodeActions } from '../store/actions'
 
@@ -99,8 +99,15 @@ class NodeLibrary extends React.Component<DispatchProps, NodeLibraryState> {
             setOptions={this.setNodeOptions}
           />
         )
+      case 'Oscillator':
+        return (
+          <OscillatorReactComponent
+            options={this.state.nodeOptions}
+            setOptions={this.setNodeOptions}
+          />
+        )
       default:
-        return 'Add this node type to NodeLibrary!'
+        return null
     }
   }
 
@@ -112,8 +119,7 @@ class NodeLibrary extends React.Component<DispatchProps, NodeLibraryState> {
       return
     }
     const type = selectedKeys[0] as SoundgraphNodeType
-    const node = nodeFactory.createNode(type) // TODO don't actually create node in the audio context
-    if (node.reactComponent) {
+    if (this.getOptionsUi(type) !== null) {
       this.setState({ nodeType: type, nodeOptions: {} })
     } else {
       this.props.dispatch(nodeActions.createNode.request({ type }))

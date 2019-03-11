@@ -1,4 +1,5 @@
 import { createAsyncAction } from 'typesafe-actions'
+import { CytoscapeEdgeDefinition } from '../../graph/Edge'
 import { CytoscapeNodeDefinition } from '../../graph/Node'
 import { Point } from '../../graph/Util'
 import { SoundgraphNodeType } from '../../nodes/SoundgraphNode'
@@ -37,4 +38,8 @@ export const deleteNode = createAsyncAction(
   'DELETE_NODE_REQUEST',
   'DELETE_NODE_SUCCESS',
   'DELETE_NODE_FAILURE'
-)<string, CytoscapeNodeDefinition[], Error>()
+)<
+  string,
+  { nodeId: string; remainingEdges: CytoscapeEdgeDefinition[] },
+  Error
+>()

@@ -22,4 +22,8 @@ export const getEdgeId = (edge: Edge) =>
   '-' +
   edge.destinationInputIndex
 
+export const isConnectedToNode = (edge: Edge, nodeId: string) => {
+  return edge.sourceNodeId === nodeId || edge.destinationNodeId === nodeId
+}
+
 export type CytoscapeEdgeDefinition = EdgeDefinition

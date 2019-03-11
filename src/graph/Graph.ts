@@ -2,7 +2,13 @@ import Cytoscape from 'cytoscape'
 import CytoscapeCxtmenu from 'cytoscape-cxtmenu'
 import CytoscapeEdgehandles from 'cytoscape-edgehandles'
 import 'font-awesome/css/font-awesome.css'
-import { CytoscapeEdgeDefinition, Edge, edgeEquals, getEdgeId } from './Edge'
+import {
+  CytoscapeEdgeDefinition,
+  Edge,
+  edgeEquals,
+  getEdgeId,
+  isConnectedToNode
+} from './Edge'
 import { Node, NodeType } from './Node'
 import { NodeFactory } from './NodeFactory'
 
@@ -35,9 +41,7 @@ export class Graph<NODE extends Node<any, any>> {
 
   public removeNode = (id: string) => {
     this.nodes.delete(id)
-    this.edges = this.edges.filter(
-      e => e.sourceNodeId !== id && e.destinationNodeId !== id
-    )
+    this.edges = this.edges.filter(e => !isConnectedToNode(e, id))
   }
 
   public removeAllNodes = () => {

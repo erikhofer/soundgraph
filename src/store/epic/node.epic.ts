@@ -52,13 +52,12 @@ const deleteNodeEpic: AppEpic = (action$, _, { graph }) =>
   action$.pipe(
     filter(isActionOf(nodeActions.deleteNode.request)),
     map(action => {
-      const node = graph.getNode(action.payload)
       graph.removeNode(action.payload)
-      if (node !== undefined) {
-        return node.getCytoscapeDefinitions()
-      } else {
-        map(nodeActions.deleteNode.failure)
-        return undefined
+      return {
+        nodeId: action.payload,
+        remainingEdges: graph
+          .getAllEdges()
+          .map(graph.getCytoscapeEdgeDefinition)
       }
     }),
     map(nodeActions.deleteNode.success)

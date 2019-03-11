@@ -51,8 +51,8 @@ export const OscillatorReactComponent: ReactNodeComponent<
       Frequency in Hz
       <Slider
         min={20}
-        max={22000}
-        defaultValue={props.options.frequency}
+        max={8000}
+        defaultValue={440}
         onAfterChange={changeFrequency}
         step={1}
       />

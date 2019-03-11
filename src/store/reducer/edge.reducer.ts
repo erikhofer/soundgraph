@@ -2,7 +2,7 @@ import { Reducer } from 'react'
 import { getType } from 'typesafe-actions'
 import { AppAction } from '..'
 import { CytoscapeEdgeDefinition } from '../../graph/Edge'
-import { edgeActions, fileActions } from '../actions'
+import { edgeActions, fileActions, nodeActions } from '../actions'
 
 export const edgeReducer: Reducer<CytoscapeEdgeDefinition[], AppAction> = (
   state = [],
@@ -17,6 +17,8 @@ export const edgeReducer: Reducer<CytoscapeEdgeDefinition[], AppAction> = (
       return action.payload.edges
     case getType(fileActions.newFile.success):
       return []
+    case getType(nodeActions.deleteNode.success):
+      return action.payload.remainingEdges
   }
   return state
 }

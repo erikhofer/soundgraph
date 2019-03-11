@@ -131,6 +131,12 @@ const cytoscapeEdgehandlesStyles: Cytoscape.Stylesheet[] = [
 
 export const cytoscapeStyle: Cytoscape.Stylesheet[] = [
   {
+    selector: 'node[root]',
+    style: {
+      label: 'data(label)'
+    }
+  },
+  {
     selector: 'node[type]',
     style: {
       shape: 'data(type)',

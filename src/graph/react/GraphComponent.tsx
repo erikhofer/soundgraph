@@ -53,14 +53,14 @@ export default class GraphComponent extends React.Component<
 
     const cytoscapeOptions: CytoscapeOptions = {
       elements: nodes.concat(edges),
-      pan: { x: 300, y: 300 },
-      layout: {
+      pan: { x: 300, y: 300 }
+      /*layout: {
         name: 'preset',
         fit: false,
         positions: (node: any) => {
           return node.data('position')
         }
-      }
+      }*/
     }
 
     return (
@@ -72,11 +72,12 @@ export default class GraphComponent extends React.Component<
           cy={this.connectCytoscape}
           style={{ width: '100%', height: '100%' }}
         />
-        {this.renderReactNodeComponents()}
+        {/* {this.renderReactNodeComponents()} disabled because it breaks node positioning */}
       </React.Fragment>
     )
   }
 
+  // @ts-ignore
   private renderReactNodeComponents() {
     // At this point we need to access the graph directly in order to retrieve
     // the React components. These cannot be stored in Redux.
@@ -138,10 +139,10 @@ export default class GraphComponent extends React.Component<
       )
     }
 
-    cy.on('ehcomplete' as any, this.setPosition as any)
+    cy.on('ehcomplete' as any, this.addEdge as any)
   }
 
-  private setPosition = (
+  private addEdge = (
     event: any,
     sourceNode: any,
     targetNode: any,

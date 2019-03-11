@@ -1,5 +1,5 @@
 import { combineEpics } from 'redux-observable'
-import { filter, map } from 'rxjs/operators'
+import { filter, flatMap, map } from 'rxjs/operators'
 import { isActionOf } from 'typesafe-actions'
 import { AppEpic } from '.'
 import { Node } from '../../graph/Node'
@@ -8,7 +8,15 @@ import { nodeActions } from '../actions'
 const createNodeEpic: AppEpic = (action$, _, { graph }) =>
   action$.pipe(
     filter(isActionOf(nodeActions.createNode.request)),
-    map(action => graph.createNode(action.payload).getCytoscapeDefinitions()),
+    map(action => {
+      const { type, options } = action.payload
+      const node = graph.createNode(type)
+      if (options) {
+        // @ts-ignore
+        node.setOptions(options)
+      }
+      return node.getCytoscapeDefinitions()
+    }),
     map(nodeActions.createNode.success)
   )
 
@@ -31,9 +39,13 @@ const setNodePositionEpic: AppEpic = (action$, _, { graph }) =>
       const { id, position } = action.payload
       const node = graph.getNode(id) as Node<any, any>
       node.position = position
-      return node.getCytoscapeDefinitions()
+      return {
+        id,
+        cytoscapeDefinition: node.getCytoscapeDefinitions()
+      }
     }),
-    map(nodeActions.setNodePosition.success)
+    // map(nodeActions.setNodePosition.success)
+    flatMap(() => []) // this prevents position reset bug
   )
 
 const deleteNodeEpic: AppEpic = (action$, _, { graph }) =>

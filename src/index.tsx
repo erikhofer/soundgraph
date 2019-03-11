@@ -14,7 +14,7 @@ import { ScheduleService } from './services/schedule.service'
 import { createAppStore } from './store'
 
 const audioContext = new AudioContext()
-const nodeFactory = new SoundgraphNodeFactory(audioContext)
+export const nodeFactory = new SoundgraphNodeFactory(audioContext)
 const graph = new Graph(nodeFactory)
 
 const services: Services = {

@@ -7,7 +7,11 @@ export const createNode = createAsyncAction(
   'CREATE_NODE_REQUEST',
   'CREATE_NODE_SUCCESS',
   'CREATE_NODE_FAILURE'
-)<SoundgraphNodeType, CytoscapeNodeDefinition[], Error>()
+)<
+  { type: SoundgraphNodeType; options?: any },
+  CytoscapeNodeDefinition[],
+  Error
+>()
 
 export const setNodeOptions = createAsyncAction(
   'SET_NODE_OPTIONS_REQUEST',

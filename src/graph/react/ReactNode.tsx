@@ -5,7 +5,7 @@ import { Node } from '../Node'
 
 export type ReactNodeComponent<OPTIONS> = FunctionComponent<{
   options: OPTIONS
-  setOptions: (options: OPTIONS) => void
+  setOptions: (options: Partial<OPTIONS>) => void
 }>
 
 export interface ReactNodeOptions {

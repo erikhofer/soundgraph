@@ -2,7 +2,13 @@ import Cytoscape from 'cytoscape'
 import CytoscapeCxtmenu from 'cytoscape-cxtmenu'
 import CytoscapeEdgehandles from 'cytoscape-edgehandles'
 import 'font-awesome/css/font-awesome.css'
-import { CytoscapeEdgeDefinition, Edge, edgeEquals, getEdgeId } from './Edge'
+import {
+  CytoscapeEdgeDefinition,
+  Edge,
+  edgeEquals,
+  getEdgeId,
+  isConnectedToNode
+} from './Edge'
 import { Node, NodeType } from './Node'
 import { NodeFactory } from './NodeFactory'
 
@@ -15,31 +21,45 @@ export class Graph<NODE extends Node<any, any>> {
 
   public constructor(private readonly nodeFactory: NodeFactory<NODE>) {}
 
-  public createNode(type: NodeType<NODE>) {
-    const node = this.nodeFactory.createNode(type)
+  public createNode = (type: NodeType<NODE>, id?: string) => {
+    const node = this.nodeFactory.createNode(type, id)
     this.nodes.set(node.id, node)
     return node
   }
 
-  public getNode(id: string) {
+  public getNode = (id: string) => {
     return this.nodes.get(id)
   }
 
-  public removeNode(id: string) {
-    this.nodes.delete(id)
-    this.edges = this.edges.filter(
-      e => e.sourceNodeId !== id && e.destinationNodeId !== id
-    )
+  public getAllNodes = () => {
+    return Array.from(this.nodes.values())
   }
 
-  public addEdge(edge: Edge) {
+  public getAllEdges = () => {
+    return [...this.edges]
+  }
+
+  public removeNode = (id: string) => {
+    this.nodes.delete(id)
+    this.edges = this.edges.filter(e => !isConnectedToNode(e, id))
+  }
+
+  public removeAllNodes = () => {
+    this.nodes.forEach((_, id) => this.removeNode(id))
+  }
+
+  public addEdge = (edge: Edge) => {
     this.edges.push(edge)
     return this.getCytoscapeEdgeDefinition(edge)
   }
 
-  public removeEdge(edge: Edge) {
+  public removeEdge = (edge: Edge) => {
     this.edges.filter(e => !edgeEquals(e, edge))
     return getEdgeId(edge)
+  }
+
+  public removeAllEdges = () => {
+    this.edges = []
   }
 
   public getCytoscapeEdgeDefinition(edge: Edge): CytoscapeEdgeDefinition {
@@ -114,6 +134,12 @@ const cytoscapeEdgehandlesStyles: Cytoscape.Stylesheet[] = [
 ]
 
 export const cytoscapeStyle: Cytoscape.Stylesheet[] = [
+  {
+    selector: 'node[root]',
+    style: {
+      label: 'data(label)'
+    }
+  },
   {
     selector: 'node[type]',
     style: {

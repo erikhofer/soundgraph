@@ -5,7 +5,21 @@
   }
 }
 
+.App-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 10px;
+
+  h1 {
+    color: white;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+}
+
 .options-ui {
+  /*
   width: 200px;
   background: white;
   border: 1px rgb(192, 192, 192) solid;
@@ -14,5 +28,14 @@
 
   > *:last-child {
     margin-bottom: 0;
+  }*/
+}
+
+.open-file {
+  margin-bottom: 14px;
+  &,
+  .ant-upload {
+    display: block;
+    width: 100%;
   }
 }

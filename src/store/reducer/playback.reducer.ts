@@ -1,7 +1,7 @@
 import { Reducer } from 'react'
 import { getType } from 'typesafe-actions'
 import { AppAction } from '..'
-import { playbackActions } from '../actions'
+import { fileActions, playbackActions } from '../actions'
 import { PlaybackState } from '../state/playback.state'
 
 export const playbackReducer: Reducer<PlaybackState, AppAction> = (
@@ -22,6 +22,8 @@ export const playbackReducer: Reducer<PlaybackState, AppAction> = (
       return { ...state, pausedAt: action.payload }
     case getType(playbackActions.setPlaybackStartTime):
       return { ...state, startTime: action.payload }
+    case getType(fileActions.openFile.success):
+      return { ...state, duration: action.payload.duration }
   }
   return state
 }

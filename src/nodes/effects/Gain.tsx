@@ -8,25 +8,10 @@ interface GainOptions {
 }
 
 export class Gain extends ReactAudioNodeAdapter<'Gain', GainOptions, GainNode> {
+  public reactComponent = GainReactComponent
   constructor(id: string, context: AudioContext) {
     super('Gain', id, context.createGain())
     this.setOptions({ gain: this.audioNode.gain.value })
-  }
-
-  public reactComponent: ReactNodeComponent<GainOptions> = props => {
-    const onAfterChange = (value: number) => props.setOptions({ gain: value })
-    return (
-      <div className="options-ui">
-        Gain value
-        <Slider
-          min={-1}
-          max={1}
-          defaultValue={props.options.gain}
-          onAfterChange={onAfterChange}
-          step={0.01}
-        />
-      </div>
-    )
   }
 
   public setOptions(options: Partial<GainOptions>) {
@@ -35,4 +20,20 @@ export class Gain extends ReactAudioNodeAdapter<'Gain', GainOptions, GainNode> {
       this.audioNode.gain.value = this.options.gain
     }
   }
+}
+
+export const GainReactComponent: ReactNodeComponent<GainOptions> = props => {
+  const onAfterChange = (value: number) => props.setOptions({ gain: value })
+  return (
+    <div className="options-ui">
+      Gain value
+      <Slider
+        min={-1}
+        max={1}
+        defaultValue={props.options.gain}
+        onAfterChange={onAfterChange}
+        step={0.01}
+      />
+    </div>
+  )
 }

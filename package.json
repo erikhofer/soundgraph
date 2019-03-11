@@ -7,6 +7,7 @@
     "cytoscape-cxtmenu": "^3.0.2",
     "cytoscape-edgehandles": "^3.5.0",
     "cytoscape-popper": "^1.0.2",
+    "file-saver": "^2.0.1",
     "font-awesome": "^4.7.0",
     "lodash": "^4.17.11",
     "react": "^16.7.0",
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@types/cytoscape": "^3.2.9",
+    "@types/file-saver": "^2.0.0",
     "@types/jest": "^23.3.13",
     "@types/lodash": "^4.14.120",
     "@types/node": "^10.12.18",

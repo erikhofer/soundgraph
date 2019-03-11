@@ -1,5 +1,9 @@
 import { Node, NodeType } from './Node'
 
 export interface NodeFactory<NODE extends Node<any, any>> {
-  createNode(type: NodeType<NODE>): NODE
+  /**
+   * Creates a node of the given type.
+   * @param id if `undefined`, generate a unique id
+   */
+  createNode(type: NodeType<NODE>, id?: string): NODE
 }

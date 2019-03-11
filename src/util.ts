@@ -7,3 +7,7 @@ export function round(n: number, decimals: number) {
  * Normal space ` ` is omited in JSX. Use this to actually output a space.
  */
 export const PROTECTED_SPACE = '\u00A0'
+
+export function flatten<T>(arrays: T[][]): T[] {
+  return [].concat.apply([], arrays)
+}
